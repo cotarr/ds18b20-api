@@ -1,5 +1,9 @@
 # ds18b20-api
 
+### Status 
+
+Work in progress, currently debugging initial code.
+
 ### Description
 
 This is a NodeJs/Express web API that is intended to read 
@@ -37,7 +41,7 @@ When enabled in the configuration, the API will reject TLS connection
 requests in which the TLS client certificate is not signed by 
 the CA certificate. 
 
-Optionally, TLS client certification verification may
+Optionally, TLS client certificate verification may
 be enabled in the configuration as described further below.
 
 Optionally, a 'nftables' or 'iptables' firewall may used to 
@@ -98,19 +102,19 @@ automatically to the filesystem after reboot.
 
 It is possible to use the `ls` command to search for new sensors.
 Each sensor will have a unique directory added to the `/sys/bus/w1/devices/` directory.
-In this example the sensor ID is `28-01142f65954d` which is 
+In this example the sensor ID is `28-0115a43610ff` which is 
 formed using a unique factory assigned serial number.
 
 ```
 $ ls /sys/bus/w1/devices/
-28-01142f65954d  w1_bus_master1
+28-0115a43610ff  w1_bus_master1
 $
 ```
 
 The `cat` command can be used to read data from a file named `temperature` in device's folder.
 The file will contain integer number that represents the temperature
 in degrees C multiplied by 1000. In this example 28562 represents 28.572 Degrees C.
-The unique folder name observed above should be used.
+The unique folder name observed in the previous step should be used.
 
 ```
 $ cat /sys/bus/w1/devices/28-0115a43610ff/temperature
@@ -202,37 +206,45 @@ defined in the 'SERVER_TLS_CA' environment variable.
 Optionally, TLS certificates for use with numeric IP addresses 
 may be created using a bash script https://github.com/cotarr/cert-numeric-ip
 
+If you are using custom bash scripts to start and stop, it 
+would be useful to know the PID number of the current instance 
+of ds18b20-api. If the environment variable `SERVER_PID_FILENAME`
+is defined, the PID number will be written to this file when the 
+API is started. If this variable is not defined, no file will be created.
+
 - Configuration Environment Variables
 
-| Env Variable       | Example               | Description                                         |
-| ------------------ | :-------------------- | :-------------------------------------------------- |
-| ID_SENSOR_0        | 28-0115a43610ff       | Filename of sensor directory in device file tree    |
-| SERVER_PORT        | 8000                  | The http web server listening port number           |
-| SERVER_TLS         | false                 | Set true to enable TLS encryption                   |
-| SERVER_CLIENT_AUTH | false                 | Set 'true' to enforce client certificate validation |
-| SERVER_TLS_CA      | /some-path/CAcert.pem | Filename of TLS CA certificate                      |
-| SERVER_TLS_CERT    | /some-path/cert.pem   | Filename of web server TLS server certificate       |
-| SERVER_TLS_KEY     | /some-path/key.pem    | Filename of web server TLS private key certificate  |
+| Env Variable        | Example                | Description                                         |
+| ------------------- | :--------------------- | :-------------------------------------------------- |
+| ID_SENSOR_0         | 28-0115a43610ff        | Filename of sensor directory in device file tree    |
+| SERVER_PORT         | 8000                   | The http web server listening port number           |
+| SERVER_TLS          | false                  | Set true to enable TLS encryption                   |
+| SERVER_CLIENT_AUTH  | false                  | Set 'true' to enforce client certificate validation |
+| SERVER_TLS_CA       | /some-path/CAcert.pem  | Filename of TLS CA certificate                      |
+| SERVER_TLS_CERT     | /some-path/cert.pem    | Filename of web server TLS server certificate       |
+| SERVER_TLS_KEY      | /some-path/key.pem     | Filename of web server TLS private key certificate  |
+| SERVER_PID_FILENAME | /some-path/ds18b20.pid | If defined, write file on startup with PID number   |
 
 NodeJs includes an environment variable `NODE_ENV`. In the case
 where NODE_ENV is undefined or set to 'development' the
-npm package manager will load development dependencies
-including in this case eslint. When the NODE_ENV is 
-set to development the http access log be redirected to stdout.
+npm package manager will load development dependencies,
+in this case, eslint. When the NODE_ENV is 
+set to development the http access log be redirected to stdout
+without filtering.
 
 ### Install Packages
 
 The npm package manager is used to install JavaScript module dependencies.
 Perform one of the following two options.
 
-- Option 1 - Run local to try it out. (development --> log to console)
+- Option 1 - Run local to try it out. In development, the access log is sent to the terminal. Eslint is installed.
 
 ```
 export NODE_ENV=development
 npm install
 ```
 
-- Option 2 - Typical for server installation. The HTTP access log output is written to files in the logs directory.
+- Option 2 - Typical for server installation. In production, the HTTP access log is filtered and the output is written to files in the 'logs' directory.
 
 ```
 export NODE_ENV=production
@@ -241,29 +253,29 @@ npm ci
 
 ### Starting the web server API
 
-The API web server may be started changing to the base repository 
-file directory and typing:
+The API web server may be started from the base repository 
+file directory by typing:
 
 ```
 npm start
 ```
 
-Alternately the web server may be started using node command:
+Alternately the web server may be started using the node command:
 
 ```
 node bin/www
 ```
 
-When running in the production enveronment with NODE_ENV=production,
+When running in the production environment with NODE_ENV=production,
 the HTTP access log may be redirected to the terminal
-by adding an environment variable to the command:
+by adding the following environment variable to the command:
 
 ```
 NODE_DEBUG_LOG=1 node bin/www
 ```
 
 In the case of NODE_ENV=production the HTTP access log is limited to logging
-only errors where the status code is greater than 400. 
+only errors where the HTTP response status code is greater or equal than 400. 
 Automatic pruning of log files is not included, so the access log should be 
 checked occasionally to manage disk space utilization.
 
