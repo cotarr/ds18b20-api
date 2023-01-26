@@ -62,11 +62,11 @@ if (config.sensors.length < 1) {
 //
 // Data API routes
 //
-app.get('/alldata', ds18b20Route(-1));
-app.get('/data/0', ds18b20Route(0));
-app.get('/data/1', ds18b20Route(1));
-app.get('/data/2', ds18b20Route(2));
-app.get('/data/3', ds18b20Route(3));
+app.get('/v1/alldata', ds18b20Route(-1));
+app.get('/v1/data/0', ds18b20Route(0));
+app.get('/v1/data/1', ds18b20Route(1));
+app.get('/v1/data/2', ds18b20Route(2));
+app.get('/v1/data/3', ds18b20Route(3));
 
 // ---------------------------------
 //       T E S T   E R R O R

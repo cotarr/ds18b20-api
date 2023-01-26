@@ -16,7 +16,7 @@ The sensors are read once per minute and the data is cached
 in RAM for web access. The application is limited to real 
 time temperature data and it does not include temperature logging.
 
-- Example HTTP response to an HTTP GET request to route `/data/0'`
+- Example HTTP response to an HTTP GET request to route `/v1/data/0'`
 
 ```json
 {
@@ -58,7 +58,7 @@ different from this depending on the middleware package used.
 Use of third party middleware is beyond the scope of this readme.
 
 ```js
-app.get('/data/0', myCustomAuthorizationMiddlewareGoesHere, ds18b20Route(0));
+app.get('/v1/data/0', myCustomAuthorizationMiddlewareGoesHere, ds18b20Route(0));
 ```
 
 To reduce security risk, is recommended to run the http web server 
@@ -285,7 +285,7 @@ The easiest way to test the API is to start the API web server
 with TLS encryption disabled, then use the `curl` command as follows:
 
 ```bash
-curl http://localhost:8000/data/0
+curl http://localhost:8000/v1/data/0
 ```
 
 The curl command should return a JSON data object.
