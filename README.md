@@ -28,6 +28,9 @@ time temperature data and it does not include temperature logging.
 }
 ```
 
+The code was written and debugged using a Raspberry Pi 2 Model B and Raspberry Pi 3 Model B 
+running 32 bit Raspbian Version 10.13 (Debian 10 Buster) running Node version 18.13.0.
+
 ### Security Considerations
 
 The API http server does not include authorization middleware.
@@ -133,10 +136,14 @@ sudo to the cat command.
 ### Installing NodeJs
 
 This application is written in server side JavaScript. 
-It requires [NodeJs](https://nodejs.org/) and the 
+It requires [NodeJs](https://nodejs.org/) (node) and the 
 Node Package Manager (npm) be installed on the Raspberry Pi. 
 This API was written in Node Version 18, but the code is 
 simple and it should run on lower versions of node (not tested).
+Nodesource provides a setup script that can install a 
+node binary image compiled for the Raspberry Pi using apt-get.
+The nodesource instructions are available at 
+[github.com/nodesource/distributions](https://github.com/nodesource/distributions)
 
 Verify that node and npm are installed by typing `node -v` and `npm -v`.
 
