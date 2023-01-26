@@ -1,0 +1,34 @@
+{
+  "name": "ds18b20-api",
+  "version": "0.0.1",
+  "description": "Sensor API to read DS18b20 temperature sensor",
+  "main": "bin/www",
+  "scripts": {
+    "lint": "npx eslint server config bin/www *.js",
+    "start": "node ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cotarr/ds18b20-api.git"
+  },
+  "author": "Dave Bolenbaugh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cotarr/ds18b20-api/issues"
+  },
+  "homepage": "https://github.com/cotarr/ds18b20-api#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}

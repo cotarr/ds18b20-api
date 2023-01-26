@@ -1,0 +1,8 @@
+SERVER_TLS_KEY=/home/user1/.tls/key.pem
+SERVER_TLS_CERT=/home/user1/.tls/cert.pem
+SERVER_TLS_CA=/home/user1/.tls/CAcert.pem
+SERVER_TLS=false
+SERVER_CLIENT_AUTH=false
+SERVER_PORT=8000
+
+ID_SENSOR_0=28-0115a43610ff

@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const timestamp = new Date();
+console.log('Server timestamp: ' + timestamp.toISOString());
+
+const app = require('../server/app');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const process = require('process');
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+const config = require('../config/');
+
+let server;
+if (!config.server.tls) {
+  console.log('NODE_ENV ' + nodeEnv + ' starting http (non-encrypted)');
+  server = http.createServer(app);
+} else {
+  if (config.server.clientAuth) {
+    console.log('NODE_ENV ' + nodeEnv + ' starting https  (TLS encrypted, TLS client auth)');
+  } else {
+    console.log('NODE_ENV ' + nodeEnv + ' starting https  (TLS encrypted)');
+  }
+  // force TLS 1.2
+  const options = {
+    minVersion: 'TLSv1.2'
+  };
+  // case of self signed CA certificate
+  options.key = fs.readFileSync(config.server.tlsKey);
+  options.cert = fs.readFileSync(config.server.tlsCert);
+  options.ca = fs.readFileSync(config.server.tlsCA);
+  if (config.server.clientAuth) {
+    options.requestCert = true;
+    options.rejectUnauthorized = true;
+    // Alternately, option for manual auth
+    // req.client.authorized, req.client.authorizationError
+  }
+  server = https.createServer(options, app);
+}
+
+const port = config.server.port;
+
+server.listen(port);
+
+server.on('listening', function () {
+  const address = server.address();
+  console.log('(Server) listening: ' + address.address + ':' + address.port +
+    ' ' + address.family);
+
+  // Successful start, save PID for restart script and log rotate function
+  try {
+    const pidFilename = config.server.pidFilename;
+    if ((pidFilename) && (pidFilename.length > 0)) {
+      fs.writeFileSync(pidFilename, '' + process.pid + '\n');
+    }
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+});
+
+server.on('error', function (error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  if (error.code === 'EACCES') {
+    console.log('(Server) Port requires elevated privileges');
+    process.exit(1);
+  }
+  if (error.code === 'EADDRINUSE') {
+    console.log('(Server) Address or port in use');
+    process.exit(1);
+  }
+  throw error;
+});
