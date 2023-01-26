@@ -1,6 +1,8 @@
 'use strict';
 //
-// ds18b20-api API Server
+// HTTP web API to read a Raspberry Pi model ds18b20-api API Server
+//
+// This module includes the main API web server
 //
 const http = require('http');
 const express = require('express');
@@ -11,7 +13,7 @@ const app = express();
 const initializeTimers = require('./timers/timers');
 const ds18b20Route = require('./routes/ds18b20-route');
 
-const config = require('../config/');
+// const config = require('../config/');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 
@@ -26,6 +28,9 @@ initializeTimers();
 const logFolder = path.join(__dirname, '../logs');
 const logFile = path.join(__dirname, '../logs/access.log');
 
+//
+// Check if 'logs' folder exists and create if necessary
+//
 try {
   if (!fs.existsSync(logFolder)) {
     console.log('Log folder not found, creating folder...');
@@ -38,6 +43,9 @@ try {
   process.exit(1);
 }
 
+//
+// Use morgan as the logger
+//
 if ((nodeEnv === 'development') || (process.env.NODE_DEBUG_LOG === '1')) {
   app.use(logger(':date[iso] :remote-addr :status :method :http-version :req[host]:url'));
 } else {
@@ -51,22 +59,19 @@ if ((nodeEnv === 'development') || (process.env.NODE_DEBUG_LOG === '1')) {
   }));
 }
 
+//
 // Status route to confirm server is running
+//
 app.get('/status', (req, res) => res.json({ status: 'ok' }));
-
-if (config.sensors.length < 1) {
-  console.log('Error, no sensor ID has been configured');
-  process.exit(1);
-}
 
 //
 // Data API routes
 //
-app.get('/v1/alldata', ds18b20Route(-1));
 app.get('/v1/data/0', ds18b20Route(0));
 app.get('/v1/data/1', ds18b20Route(1));
 app.get('/v1/data/2', ds18b20Route(2));
 app.get('/v1/data/3', ds18b20Route(3));
+app.get('/v1/alldata', ds18b20Route(-1));
 
 // ---------------------------------
 //       T E S T   E R R O R

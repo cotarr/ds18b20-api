@@ -1,8 +1,10 @@
 (function () {
   'use strict';
   // ------------------------------------------
-  // Background task to read API in Raspberry pi
-  // and add the data to global array.
+  // This module is a background task used to
+  // read the sensors using a 60 second timer.
+  // The data is added to the  global array
+  // for use by the web server.
   // ------------------------------------------
   //
   const fs = require('fs');
@@ -12,9 +14,15 @@
 
   const updateIntervalSeconds = 60;
 
+  //
+  // Called by the 60 second timer to
+  // initiate read operation on the temperature sensor(s)
+  //
   function cacheData () {
-    // Return NodeJs middleware function
-    function readSensor (index) {
+    //
+    // Internal function called with sensor index = 0, 1, 2, or 3
+    //
+    function _readSensor (index) {
       if ((index < 0) || (index > 3)) {
         console.log('Fatal error, sensor index out of range');
         process.exit(1);
@@ -23,7 +31,13 @@
         console.log('Fatal error, attempting to read sensor ID of null');
         process.exit(1);
       }
+      // Use the Raspberry Pi device tree overlay to access data from the
+      // 1-Wire serial bus.
+      //
       const fileName = '/sys/bus/w1/devices/' + config.sensors[index] + '/temperature';
+      //
+      // Attempt to read the data using a callback function
+      //
       fs.readFile(fileName, 'utf8', function (err, dataString) {
         if (err) {
           const now = new Date();
@@ -86,13 +100,13 @@
           }
         }
       });
-    } // readSensor (index) {
+    } // _readSensor (index) {
 
     // Read Each configured Sensor
-    if (config.sensors[0]) readSensor(0);
-    if (config.sensors[1]) readSensor(1);
-    if (config.sensors[2]) readSensor(2);
-    if (config.sensors[3]) readSensor(3);
+    if (config.sensors[0]) _readSensor(0);
+    if (config.sensors[1]) _readSensor(1);
+    if (config.sensors[2]) _readSensor(2);
+    if (config.sensors[3]) _readSensor(3);
   }; // function cacheData () {
 
   // counter for timer callback

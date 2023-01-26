@@ -1,3 +1,8 @@
+//
+// Module used to handle http routes and return
+// temperature data that had been previously stored in
+// global variables
+//
 'use strict';
 
 // seconds
