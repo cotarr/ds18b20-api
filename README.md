@@ -291,13 +291,7 @@ curl http://localhost:8000/data/0
 The curl command should return a JSON data object.
 
 ```json
-{
-  "id": 0,
-  "timestamp": 1674726373,
-  "data": 26.312,
-  "error": 0,
-  "errorMessage": ""
-}
+{"id":0,"timestamp":1674744779,"data":25.562,"error":0,"errorMessage":""}
 ```
 
 ### Linting
