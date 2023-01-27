@@ -1,9 +1,5 @@
 # ds18b20-api
 
-### Status 
-
-Work in progress, currently debugging initial code.
-
 ### Description
 
 This is a NodeJs/Express web API that is intended to read 
