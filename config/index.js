@@ -29,7 +29,6 @@ exports.server = {
 };
 
 // Import 1 to 4 sensors from ENV variables
-// This assumes no sensors are missing in the middle of the sequence
 
 const sensors = [
   null,
@@ -39,6 +38,7 @@ const sensors = [
 ];
 
 // Sensor id are listed in Raspberry Pi directory /sys/bus/w1/devices/
+// See README.md for instructions for obtaining the ID value.
 // Example: ID_SENSOR_2=28-0115a43610ff
 
 if (process.env.ID_SENSOR_0) sensors[0] = process.env.ID_SENSOR_0;

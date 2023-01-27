@@ -44,11 +44,11 @@ When enabled in the configuration, the API will reject TLS connection
 requests in which the TLS client certificate is not signed by 
 the CA certificate. 
 
-Optionally, TLS client certificate verification may
-be enabled in the configuration as described further below.
+Optionally, TLS client certificate verification described above may
+be enabled or disabled in the configuration as described further below.
 
 Optionally, a 'nftables' or 'iptables' firewall may used to 
-restrict network access to the Raspberry Pi from unwanted connections. 
+restrict network access to the Raspberry Pi from unwanted network connections. 
 Custom firewall configuration is beyond the scope of this readme.
 
 Optionally, users familiar with ExpressJs applications may
@@ -72,7 +72,7 @@ No automated tests are included in this application.
 ### Device Drivers
 
 The Raspberry Pi OS includes device drivers used to operate the 1-Wire serial 
-interface and read data connected to the 1-Wire serial bus. Multiple sensors 
+interface and read data from devices connected to the 1-Wire serial bus. Multiple sensors 
 may be connected in parallel on the 1-Wire bus. Multiple sensors are 
 identified using a factory encoded serial number in each temperature sensor.
 
@@ -131,7 +131,7 @@ to obtain permission to access the 1-Wire device tree directories.
 
 If you are having trouble with this step, it may be useful to 
 temporarily switch to a user that has sudo permission and add 
-sudo to the cat command.
+sudo to the cat command while troubleshooting.
 
 ### Installing NodeJs
 
@@ -140,10 +140,13 @@ It requires [NodeJs](https://nodejs.org/) (node) and the
 Node Package Manager (npm) be installed on the Raspberry Pi. 
 This API was written in Node Version 18, but the code is 
 simple and it should run on lower versions of node (not tested).
-Nodesource provides a setup script that can install a 
+
+The Nodesource web site provides a setup script that can install a 
 node binary image compiled for the Raspberry Pi using apt-get.
 The nodesource instructions are available at 
-[github.com/nodesource/distributions](https://github.com/nodesource/distributions)
+[github.com/nodesource/distributions](https://github.com/nodesource/distributions).
+For a Raspberry Pi running Raspberry Pi OS or Raspbian OS,
+use one of the sections marked 'Using Debian, as root'.
 
 Verify that node and npm are installed by typing `node -v` and `npm -v`.
 
@@ -204,7 +207,7 @@ assigned for the TLS certificates and private key. In the case
 where TLS is disabled, the certificate files are not required.
 The private key file should not have global read permission.
 
-If the `SERVER_CLIENT_AUTH` environment variable is set to 'true', 
+If the `SERVER_CLIENT_AUTH` environment variable is set to the string value 'true', 
 the TLS client certificate will be used to authenticate the 
 identity of the incoming connection request. In this case, 
 the TLS server certificate and the TLS client certificate 
@@ -213,8 +216,8 @@ defined in the 'SERVER_TLS_CA' environment variable.
 Optionally, TLS certificates for use with numeric IP addresses 
 may be created using a bash script https://github.com/cotarr/cert-numeric-ip
 
-If you are using custom bash scripts to start and stop, it 
-would be useful to know the PID number of the current instance 
+If you are using custom bash scripts to start and stop the web server, it 
+may be useful to know the PID number of the current instance 
 of ds18b20-api. If the environment variable `SERVER_PID_FILENAME`
 is defined, the PID number will be written to this file when the 
 API is started. If this variable is not defined, no file will be created.
@@ -225,7 +228,7 @@ API is started. If this variable is not defined, no file will be created.
 | ------------------- | :--------------------- | :-------------------------------------------------- |
 | ID_SENSOR_0         | 28-0115a43610ff        | Filename of sensor directory in device file tree    |
 | SERVER_PORT         | 8000                   | The http web server listening port number           |
-| SERVER_TLS          | false                  | Set true to enable TLS encryption                   |
+| SERVER_TLS          | false                  | Set 'true' to enable TLS encryption (string)        |
 | SERVER_CLIENT_AUTH  | false                  | Set 'true' to enforce client certificate validation |
 | SERVER_TLS_CA       | /some-path/CAcert.pem  | Filename of TLS CA certificate                      |
 | SERVER_TLS_CERT     | /some-path/cert.pem    | Filename of web server TLS server certificate       |
@@ -260,8 +263,18 @@ npm ci
 
 ### Starting the web server API
 
-The API web server may be started from the base repository 
-file directory by typing:
+When starting the program, it is a good idea to have 
+the environment variable NODE_ENV set to either 'production'
+or 'development'. If you are running in a shell, you may 
+optionally add this to `~/.bashrc`, such as
+
+```
+export NODE_ENV=production
+```
+
+Change the working directory to the base directory of the repository.
+There are several ways to start the web server.
+The simplest way is by typing:
 
 ```
 npm start
@@ -280,6 +293,10 @@ by adding the following environment variable to the command:
 ```
 NODE_DEBUG_LOG=1 node bin/www
 ```
+There are many ways to make the application start
+during boot of the raspberry pi, such as an '@boot' crontab rule.
+These autostart methods will be different depending on 
+the local setup, so they will not be covered here.
 
 In the case of NODE_ENV=production the HTTP access log is limited to logging
 only errors where the HTTP response status code is greater or equal than 400. 
@@ -289,7 +306,23 @@ checked occasionally to manage disk space utilization.
 # Testing
 
 The easiest way to test the API is to start the API web server 
-with TLS encryption disabled, then use the `curl` command as follows:
+with TLS encryption disabled, then use the `curl` command.
+If you have assigned a custom port number, you will need to use it here.
+
+The web server includes a status route. To verify the web server is 
+running, use curl to access the '/status' route:
+
+```bash
+curl http://localhost:8000/status
+```
+
+The curl command should return:
+
+```json
+{"status":"ok"}
+```
+
+Next use curl to request the current temperature on sensor at id 0.
 
 ```bash
 curl http://localhost:8000/v1/data/0
@@ -299,6 +332,16 @@ The curl command should return a JSON data object.
 
 ```json
 {"id":0,"timestamp":1674744779,"data":25.562,"error":0,"errorMessage":""}
+```
+
+Available routes:
+
+```
+/v1/data/0
+/v1/data/1
+/v1/data/2
+/v1/data/3
+/v1/alldata
 ```
 
 ### Linting

@@ -42,7 +42,7 @@
         if (err) {
           const now = new Date();
           const nowSeconds = Math.floor(now.getTime() / 1000);
-          // Case of directory name or file name out found
+          // Case of directory name or file name not found
           if (err.code === 'ENOENT') {
             global.gv.cache[index].timestamp = nowSeconds;
             global.gv.cache[index].data = -100;

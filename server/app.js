@@ -1,6 +1,6 @@
 'use strict';
 //
-// HTTP web API to read a Raspberry Pi model ds18b20-api API Server
+// HTTP web API to read a Raspberry Pi model ds18b20
 //
 // This module includes the main API web server
 //
@@ -53,6 +53,7 @@ if ((nodeEnv === 'development') || (process.env.NODE_DEBUG_LOG === '1')) {
     fs.createWriteStream(logFile, { flags: 'a' });
   app.use(logger(':date[iso] :remote-addr :status :method :http-version :req[host]:url', {
     stream: accessLogStream,
+    // Only log errors
     skip: function (req, res) {
       return (res.statusCode < 400);
     }

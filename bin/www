@@ -36,8 +36,6 @@ if (!config.server.tls) {
   if (config.server.clientAuth) {
     options.requestCert = true;
     options.rejectUnauthorized = true;
-    // Alternately, option for manual auth
-    // req.client.authorized, req.client.authorizationError
   }
   server = https.createServer(options, app);
 }
