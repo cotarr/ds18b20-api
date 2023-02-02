@@ -38,7 +38,8 @@ module.exports = function (index) {
     return function (req, res, next) {
       const now = new Date();
       const nowSeconds = Math.floor(now.getTime() / 1000);
-      if (nowSeconds - global.gv.cache[index].timestamp > dataExpiration) {
+      if ((global.gv.cache[index].error === 0) &&
+        (nowSeconds - global.gv.cache[index].timestamp > dataExpiration)) {
         global.gv.cache[index].data = -100;
         global.gv.cache[index].error = 10;
         global.gv.cache[index].errorMessage =
