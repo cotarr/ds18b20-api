@@ -7,6 +7,7 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Update express to v4.19.2 to address npm audit security warning.
+- Update all npm dependencies to current
 
 ## [v1.0.1](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.1) 2023-02-02
 
