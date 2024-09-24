@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.3](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.3) 2024-09-24
+
+- Update express to v4.21.0 to address npm audit security warning.
+
 ## [v1.0.2](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.2) 2024-03-28
 
 - Update express to v4.19.2 to address npm audit security warning.
