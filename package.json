@@ -4,7 +4,7 @@
   "description": "NodeJs/Express API to read Raspberry Pi model DS18b20 temperature sensors.",
   "main": "bin/www",
   "scripts": {
-    "lint": "npx eslint server config bin/www *.js",
+    "lint": "npx eslint server config bin/www",
     "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,14 +20,12 @@
   "homepage": "https://github.com/cotarr/ds18b20-api#readme",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1"
+    "@eslint/js": "^9.12.0",
+    "eslint": "^9.12.0",
+    "globals": "^15.11.0"
   }
 }

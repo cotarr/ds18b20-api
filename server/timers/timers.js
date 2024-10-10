@@ -11,7 +11,7 @@
   const fs = require('fs');
   const config = require('../../config/');
 
-  const nodeEnv = process.env.NODE_ENV || 'development'; // eslint-disable-line no-unused-vars
+  const nodeEnv = process.env.NODE_ENV || 'development';
 
   const updateIntervalSeconds = 60;
 
