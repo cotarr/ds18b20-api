@@ -12,6 +12,9 @@ and this project adheres to
 - Run npm audit fix to fix eslint
 - Modify dotenv to suppress tips { quiet: true }
 
+- Update express version 4 to 5 (major version upgrade)
+- Regenerate package-lock.json
+
 ## [v1.0.7](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.7) 2025-06-14
 
 - Upgrade dependencies to current to clear npm audit warning.
