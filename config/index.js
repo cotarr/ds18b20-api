@@ -8,7 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Import UNIX environment variables from .env file and add to process.env
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 const appVersion = JSON.parse(fs.readFileSync('package.json')).version;
 
