@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Next
+## [v1.0.8](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.8) 2025-07-19
 
 - Update all npm packages to current
 - Run npm audit fix to fix eslint
