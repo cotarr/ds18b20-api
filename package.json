@@ -1,6 +1,6 @@
 {
   "name": "ds18b20-api",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "NodeJs/Express API to read Raspberry Pi model DS18b20 temperature sensors.",
   "main": "bin/www",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
-    "eslint": "^9.31.0",
+    "eslint": "^9.32.0",
     "globals": "^16.3.0"
   }
 }
