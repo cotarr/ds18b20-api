@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.12](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.12) 2026-02-23
+
+- Update npm packages and regenerate new package-lock.json to clear npm audit warning.
+- Remove development dependency eslint from project
+
 ## [v1.0.11](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.11) 2026-01-08
 
 - Run npm audit fix to clear npm audit warning.
