@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.16](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.16) 2026-09-08
+
+- Update morgan@1.12.0 to fix morgan vulnerable to Log Forging via unescaped Unicode
+- Run audit fix to clear npm audit warning.
+
 ## [v1.0.15](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.15) 2026-08-28
 
 - Run npm audit fix to clear npm audit warning  
