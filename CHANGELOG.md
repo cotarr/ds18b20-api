@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.18](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.18) 2026-10-15
+
+- Run audit fix to clear npm audit warning.
+
 ## [v1.0.17](https://github.com/cotarr/ds18b20-api/releases/tag/v1.0.17) 2026-09-30
 
 - Update morgan@1.12.1 to clear npm audit warning.
